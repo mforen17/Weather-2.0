@@ -1,0 +1,60 @@
+.forecast-details-container {
+  position: absolute;
+  display: flex;
+  width: 610px;
+  height: 36px;
+  left: 76px;
+  top: 528px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.forecast-details-container-div1 {
+  margin: 0px 31px 0px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  height: 19px;
+}
+
+.forecast-details-container-div2 {
+  margin: 0px 32px 0px 25px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  height: 19px;
+}
+
+.wind {
+  display: flex;
+  justify-content: space-between;
+  width: 183px;
+  height: 34px;
+}
+
+.forecast-details-container p {
+  margin-left: 11px;
+  font-family: 'Overpass-Light';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 28px;
+  color: #ffffff;
+  text-shadow: -1.39839px 2.09758px 0.699193px rgba(0, 0, 0, 0.1);
+}
+
+.hum-rain-container {
+  display: flex;
+  width: 366px;
+  height: 36px;
+}
+
+.hum {
+  display: flex;
+  justify-content: space-between;
+  width: 159px;
+  height: 34px;
+}
+
+.rain {
+  display: flex;
+  justify-content: space-between;
+  width: 159px;
+  height: 34px;
+}

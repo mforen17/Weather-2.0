@@ -1,0 +1,39 @@
+.main-temp {
+  position: absolute;
+  width: 245px;
+  height: 197px;
+  top: 192px;
+  left: 66px;
+  display: flex;
+  filter: drop-shadow(-4.51px 2.26px 0.75px rgba(0, 0, 0, 0.15));
+}
+
+.display {
+  width: 192px;
+  height: 197px;
+}
+
+.display h1 {
+  font-family: 'Inter-Thin';
+  font-style: normal;
+  font-weight: 100;
+  font-size: 164px;
+  line-height: 120%;
+  color: #ffffff;
+}
+
+.temp-system {
+  margin-left: 10px;
+  width: 43px;
+  height: 38px;
+}
+
+.temp-system h1 {
+  font-family: 'Inter-Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 120%;
+  letter-spacing: -0.05em;
+  color: #ffffff;
+}

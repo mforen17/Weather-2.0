@@ -1,0 +1,87 @@
+.forecast-card-container {
+  display: flex;
+  position: absolute;
+  width: 610px;
+  height: 202px;
+  top: 638px;
+  left: 76px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  border-radius: 11.3852px;
+  cursor: grab;
+}
+
+.forecast-card {
+  margin-left: 54px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 110px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 11.3852px;
+  border: 0.57px solid rgba(255, 255, 255, 0.4);
+  user-select: none;
+  pointer-events: none;
+}
+
+.forecast-card-temp {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 37px;
+}
+
+.forecast-card-img {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  width: 60px;
+  height: 60px;
+}
+
+.forecast-card-day {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 37px;
+}
+
+.forecast-card-temp h5 {
+  font-family: 'Overpass-Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: -1.13852px 1.70778px 0.569258px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-card-day h5 {
+  font-family: 'Overpass-Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  display: flex;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: -1.13852px 1.70778px 0.569258px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-card:first-child {
+  margin: 0px;
+}
+
+.slider-scroll {
+  scroll-behavior: auto;
+  cursor: grabbing;
+}

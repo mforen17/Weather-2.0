@@ -1,13 +1,105 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.forecast-card-container::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: 'Inter-Thin';
+  src: url('./fonts/Inter-Thin.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-Regular';
+  src: url('./fonts/Inter-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-Light';
+  src: url('./fonts/Inter-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Overpass-Light';
+  src: url('./fonts/Overpass-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Overpass-Regular';
+  src: url('./fonts/Overpass-Regular.ttf');
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+  width: 1440px;
+  height: 900px;
+  background: linear-gradient(70deg, #48355b 0%, #91bef3 100%);
+  margin-top: 30px;
+}
+
+.cover-img {
+  position: absolute;
+  top: 67px;
+  left: 66px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Date & Time*/
+.date {
+  position: absolute;
+  left: 76px;
+  top: 406px;
+  width: 237px;
+  height: 43px;
+  font-family: 'Inter-Light';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 120%;
+  color: #ffffff;
+  text-shadow: -1.51px 2.26px 0.75px rgba(0, 0, 0, 0.1);
+}
+
+.day-time {
+  position: absolute;
+  display: flex;
+  width: 237px;
+  height: 28px;
+  left: 76px;
+  top: 462px;
+  align-items: center;
+}
+
+.day-time h1 {
+  font-family: 'Inter-Light';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 120%;
+  color: #ffffff;
+  text-shadow: -1.51px 2.26px 0.75px rgba(0, 0, 0, 0.1);
+}
+
+.day-time-div {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  height: 16px;
+  margin: 0px 17px;
+}
+
+/* Arrows */
+.right-arrow {
+  position: absolute;
+  left: 749.5px;
+  top: 728px;
+  cursor: pointer;
 }
