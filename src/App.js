@@ -8,15 +8,23 @@ import { v4 as uuid } from 'uuid'
 
 const App = () => {
   const [mouseDown, setMouseDown] = useState(false)
-  const [currentWeather, setCurrentWeather] = useState(null)
-  const [forecastWeather, setForecastWeather] = useState(null)
+
+  const [currentWeatherF, setCurrentWeatherF] = useState(null)
+  const [currentWeatherC, setCurrentWeatherC] = useState(null)
+  const [forecastWeatherF, setForecastWeatherF] = useState(null)
+  const [forecastWeatherC, setForecastWeatherC] = useState(null)
+  const [weatherAndForecast, setWeatherAndForecast] = useState([
+    currentWeatherF,
+    forecastWeatherF,
+  ])
+
   const [unitSystem, setUnitSystem] = useState('imperial')
   const slider = useRef()
 
   const date = new Date()
 
   // get the forecast of each day
-  const selectedForecast = [1, 9, 17, 25, 33, 39]
+  const selectedForecast = [0, 9, 17, 25, 33, 39]
   let selectedSliderCounter = 1
 
   // move the forecast slider to the right
@@ -30,26 +38,49 @@ const App = () => {
       slider.current.scrollLeft -= e.movementX
     }
   }
+  // Change the unit system and the props passed into components
+  const handleUnitSystemChange = () => {
+    setUnitSystem(unitSystem === 'imperial' ? 'metric' : 'imperial')
+    if (unitSystem === 'imperial') {
+      setWeatherAndForecast([currentWeatherC, forecastWeatherC])
+    } else {
+      setWeatherAndForecast([currentWeatherF, forecastWeatherF])
+    }
+  }
 
   const fetchWeatherReport = async (lat, lon) => {
-    console.log('ran')
-    const weatherReport = await fetch(
-      `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&units=${unitSystem}&appid=${API_KEY}`
+    const weatherReportF = await fetch(
+      `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&units=${'imperial'}&appid=${API_KEY}`
     )
-    const forecastReport = await fetch(
-      `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&units=${unitSystem}&appid=${API_KEY}`
+    const weatherReportC = await fetch(
+      `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&units=${'metric'}&appid=${API_KEY}`
+    )
+    const forecastReportF = await fetch(
+      `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&units=${'imperial'}&appid=${API_KEY}`
+    )
+    const forecastReportC = await fetch(
+      `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&units=${'metric'}&appid=${API_KEY}`
     )
 
-    Promise.all([weatherReport, forecastReport])
+    Promise.all([
+      weatherReportF,
+      weatherReportC,
+      forecastReportF,
+      forecastReportC,
+    ])
       .then(async (response) => {
-        const weatherResponse = await response[0].json()
-        const forecastResponse = await response[1].json()
-        setCurrentWeather(weatherResponse)
-        setForecastWeather(forecastResponse)
+        const weatherResponseF = await response[0].json()
+        const weatherResponseC = await response[1].json()
+        const forecastResponseF = await response[2].json()
+        const forecastResponseC = await response[3].json()
+        setCurrentWeatherF(weatherResponseF)
+        setCurrentWeatherC(weatherResponseC)
+        setForecastWeatherF(forecastResponseF)
+        setForecastWeatherC(forecastResponseC)
+        setWeatherAndForecast([weatherResponseF, forecastResponseF])
       })
       .catch((err) => console.log(err))
   }
-  console.log(currentWeather, forecastWeather)
   useEffect(() => {
     fetch(
       `${GEO_API_URL}/1.0/direct?q=${'Cambridge'},${'US'}&limit=${1}&appid=${API_KEY}`
@@ -58,7 +89,7 @@ const App = () => {
       .then((data) => {
         fetchWeatherReport(data[0].lat, data[0].lon)
       })
-  }, [unitSystem])
+  }, [])
 
   const dateFormat = new Intl.DateTimeFormat('en-US', {
     day: '2-digit',
@@ -80,18 +111,16 @@ const App = () => {
     weekday: 'short',
   })
 
-  console.log(unitSystem)
   return (
     <>
-      {currentWeather && (
+      {currentWeatherC && (
         <div className="container">
           <img src={`icons/cover-img.png`} alt="" className="cover-img" />
-          <Toggle
-            setUnitSystem={() =>
-              setUnitSystem(unitSystem === 'imperial' ? 'metric' : 'imperial')
-            }
+          <Toggle setUnitSystem={handleUnitSystemChange} />
+          <Temp
+            temp={weatherAndForecast[0].main.temp}
+            unitSystem={unitSystem}
           />
-          <Temp temp={currentWeather.main.temp} unitSystem={unitSystem} />
           <h1 className="date">{dateFormat.format(date)}</h1>
           <div className="day-time">
             <h1>{weekDayFormat.format(date)}</h1>
@@ -99,9 +128,9 @@ const App = () => {
             <h1>{timeFormat.format(date)}</h1>
           </div>
           <ForecastDetails
-            wind={currentWeather.wind.speed}
-            hum={currentWeather.main.humidity}
-            rain={currentWeather.rain}
+            wind={weatherAndForecast[0].wind.speed}
+            hum={weatherAndForecast[0].main.humidity}
+            rain={weatherAndForecast[0].rain}
             unitSystem={unitSystem}
           />
           <div
@@ -114,7 +143,7 @@ const App = () => {
             onMouseLeave={() => setMouseDown(false)}
             onMouseMove={handleMouseMove}
           >
-            {forecastWeather.list.map((hour) => {
+            {weatherAndForecast[1].list.map((hour) => {
               selectedSliderCounter++
               if (selectedForecast.includes(selectedSliderCounter)) {
                 return (

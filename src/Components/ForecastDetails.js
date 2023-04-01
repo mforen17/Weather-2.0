@@ -1,7 +1,6 @@
 import './ForecastDetails.css'
 
 const ForecastDetails = ({ wind, hum, rain, unitSystem }) => {
-  console.log(wind, hum, rain)
   return (
     <div className="forecast-details-container">
       <div className="wind">
