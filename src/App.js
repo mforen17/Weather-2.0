@@ -5,9 +5,11 @@ import Toggle from './Components/Toggle'
 import { useState, useEffect, useRef } from 'react'
 import { WEATHER_API_URL, GEO_API_URL, API_KEY } from './Api'
 import { v4 as uuid } from 'uuid'
+import Search from './Components/Search'
 
 const App = () => {
   const [mouseDown, setMouseDown] = useState(false)
+  const [locationInput, setLocationInput] = useState(['Cambridge', 'US'])
 
   const [currentWeatherF, setCurrentWeatherF] = useState(null)
   const [currentWeatherC, setCurrentWeatherC] = useState(null)
@@ -48,6 +50,24 @@ const App = () => {
     }
   }
 
+  // Handle new location search
+  const handleNewLocationInput = async (location) => {
+    const locationSplit = location.split(', ')
+    if (locationSplit[1] === '...') {
+      setLocationInput([locationSplit[0], locationInput[1]])
+      return
+    }
+    const code = await fetch(
+      `https://restcountries.com/v3.1/name/${locationSplit[1]}?fullText=true`
+    )
+    code
+      .json()
+      .then((data) => {
+        setLocationInput([locationSplit[0], data[0]['cca2']])
+      })
+      .catch((err) => console.log('ERROR: ', err))
+  }
+
   const fetchWeatherReport = async (lat, lon) => {
     const weatherReportF = await fetch(
       `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&units=${'imperial'}&appid=${API_KEY}`
@@ -83,13 +103,15 @@ const App = () => {
   }
   useEffect(() => {
     fetch(
-      `${GEO_API_URL}/1.0/direct?q=${'Cambridge'},${'US'}&limit=${1}&appid=${API_KEY}`
+      `${GEO_API_URL}/1.0/direct?q=${locationInput[0]},${
+        locationInput[1]
+      }&limit=${1}&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
         fetchWeatherReport(data[0].lat, data[0].lon)
       })
-  }, [])
+  }, [locationInput])
 
   const dateFormat = new Intl.DateTimeFormat('en-US', {
     day: '2-digit',
@@ -164,6 +186,7 @@ const App = () => {
             className="right-arrow"
             onClick={handleRightClick}
           />
+          <Search handleNewLocationInput={handleNewLocationInput} />
         </div>
       )}
     </>
